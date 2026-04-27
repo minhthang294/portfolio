@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Như Ý | Hồ sơ thiết kế thời trang</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">NGUYỄN THỊ NHƯ Ý</div>
+        <ul class="nav-links">
+            <li><a href="#home">Trang chủ</a></li>
+            <li><a href="#about">Giới thiệu</a></li>
+            <li><a href="#portfolio">Bộ sưu tập</a></li>
+            <li><a href="#contact">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-container">
+ 
+            <h1 class="main-title">Portfolio</h1>
+            
+            <div class="badge-container">
+                <span class="badge pink">HỒ SƠ NĂNG LỰC</span>
+                <span class="badge black">THIẾT KẾ THỜI TRANG</span>
+            </div>
+
+            <a href="#portfolio" class="view-collections-link">→ XEM BỘ SƯU TẬP</a>
+            
+            <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+                <span>Cuộn xuống</span>
+                <div class="arrow"></div>
+            </div>
+            
+        </div>
+    </header>
+
+    <section id="about" class="about">
+        <div class="about-bg-image">
+            <img src="img/profile3.svg" alt="Chân dung nền">
+        </div>
+        <div class="about-container">
+            <div class="about-image">
+                <img src="img/profile.svg" alt="Chân dung nhà thiết kế">
+            </div>
+            <div class="about-content">
+                <span class="section-label">Giới thiệu</span>
+                <h2>Nhà thiết kế</h2>
+                <p>Tôi là nhà thiết kế thời trang tập trung vào chất liệu bền vững và phom dáng giàu tính cấu trúc. Các thiết kế của tôi kết nối kỹ thuật thủ công truyền thống với tính ứng dụng hiện đại. Mỗi sản phẩm đều kể một câu chuyện về chất liệu, hình khối và cảm xúc.</p>
+                <div class="about-stats">
+                    <div class="stat">
+                        <span class="stat-number">4+</span>
+                        <span class="stat-label">Năm kinh nghiệm</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Bộ sưu tập</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Thiết kế</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+        <div class="portfolio-header">
+            <span class="section-label">Hồ sơ</span>
+            <h2>Các bộ sưu tập</h2>
+            <p class="portfolio-intro">Khám phá toàn bộ các bộ sưu tập nổi bật của tôi</p>
+        </div>
+        <div class="collection-grid" id="collectionGrid"></div>
+    </section>
+
+    <!-- Collection Modal -->
+    <div class="modal" id="collectionModal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <div class="modal-gallery"></div>
+                <div class="modal-info">
+                    <h2 class="modal-title">Tên bộ sưu tập</h2>
+                    <p class="modal-description"></p>
+                    <div class="modal-details">
+                        <div class="detail">
+                            <span class="detail-label">Phân loại</span>
+                            <span class="detail-value" data-detail="category"></span>
+                        </div>
+                        <div class="detail">
+                            <span class="detail-label">Hình ảnh</span>
+                            <span class="detail-value" data-detail="images"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="contact" class="contact">
+        <h2>Liên hệ</h2>
+        <p>Hiện đang sẵn sàng cho các dự án hợp tác và công việc tự do.</p>
+        <a href="mailto:nguyenthinhuy241020@gmail.com" class="email-link">nguyenthinhuy241020@gmail.com</a>
+        <div class="socials">
+            <a href="#">Instagram</a>
+            <a href="https://www.facebook.com/nguyennhuy.moon">Facebook</a>
+            <a href="https://zalo.me/0373603042">Zalo</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Nguyễn Thị Như Ý. All rights reserved.</p>
+    </footer>
+
+    <script src="collections-data.js"></script>
+    <script>
+        const collectionData = Array.isArray(window.collectionData) ? window.collectionData : [];
+        const modal = document.getElementById('collectionModal');
+        const modalClose = document.querySelector('.modal-close');
+        const collectionGrid = document.getElementById('collectionGrid');
+        const modalGallery = document.querySelector('.modal-gallery');
+        const modalTitle = document.querySelector('.modal-title');
+        const modalDescription = document.querySelector('.modal-description');
+        const modalCategory = document.querySelector('[data-detail="category"]');
+        const modalImages = document.querySelector('[data-detail="images"]');
+
+        function getCollectionTitle(collection) {
+            return collection.title === 'Feedback' ? 'Phản hồi' : collection.title;
+        }
+
+        function getCollectionType(collection) {
+            return collection.title === 'Feedback' ? 'Kho phản hồi' : 'Bộ sưu tập';
+        }
+
+        function getImageCountLabel(collection) {
+            const count = collection.images.length;
+
+            if (collection.title === 'Feedback') {
+                return `${count} ảnh phản hồi`;
+            }
+
+            return `${count} hình ảnh`;
+        }
+
+        function getCollectionDescription(collection) {
+            if (collection.title === 'Feedback') {
+                return 'Bộ ảnh phản hồi và hình trình bày được lấy trực tiếp từ thư mục Feedback trên máy.';
+            }
+
+            return `Thư viện ảnh được tạo từ thư mục ${collection.title}, sử dụng các hình ảnh hiện có trong kho lưu trữ bộ sưu tập.`;
+        }
+
+        function createCollectionCard(collection) {
+            const card = document.createElement('div');
+            const coverImage = collection.images[0] || 'img/background.svg';
+            const cardImage = document.createElement('div');
+            const image = document.createElement('img');
+            const cardOverlay = document.createElement('div');
+            const viewButton = document.createElement('span');
+            const cardInfo = document.createElement('div');
+            const title = document.createElement('h3');
+            const summary = document.createElement('p');
+
+            card.className = 'collection-card';
+            cardImage.className = 'card-image';
+            image.src = coverImage;
+            image.alt = `${getCollectionTitle(collection)} - ảnh bìa`;
+            image.loading = 'lazy';
+            cardOverlay.className = 'card-overlay';
+            viewButton.className = 'view-btn';
+            viewButton.textContent = 'Xem bộ sưu tập';
+            cardInfo.className = 'card-info';
+            title.textContent = getCollectionTitle(collection);
+            summary.textContent = getImageCountLabel(collection);
+
+            cardOverlay.appendChild(viewButton);
+            cardImage.append(image, cardOverlay);
+            cardInfo.append(title, summary);
+            card.append(cardImage, cardInfo);
+
+            card.addEventListener('click', () => {
+                openCollection(collection);
+            });
+
+            return card;
+        }
+
+        function renderModalGallery(collection) {
+            modalGallery.innerHTML = '';
+
+            if (!collection.images.length) {
+                modalGallery.innerHTML = '<p class="modal-empty">Không tìm thấy hình ảnh trong thư mục này.</p>';
+                return;
+            }
+
+            collection.images.forEach((imagePath, index) => {
+                const image = document.createElement('img');
+
+                image.src = imagePath;
+                image.alt = `${getCollectionTitle(collection)} - ảnh ${index + 1}`;
+                image.loading = 'lazy';
+
+                modalGallery.appendChild(image);
+            });
+        }
+
+        function openCollection(collection) {
+            modalTitle.textContent = getCollectionTitle(collection);
+            modalDescription.textContent = getCollectionDescription(collection);
+            modalCategory.textContent = getCollectionType(collection);
+            modalImages.textContent = getImageCountLabel(collection);
+
+            renderModalGallery(collection);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function renderCollections() {
+            collectionGrid.innerHTML = '';
+
+            if (!collectionData.length) {
+                collectionGrid.innerHTML = '<p class="collection-empty">Chưa tải được thư mục bộ sưu tập nào.</p>';
+                return;
+            }
+
+            collectionData.forEach((collection) => {
+                const card = createCollectionCard(collection);
+                collectionGrid.appendChild(card);
+                observer.observe(card);
+            });
+        }
+
+        // Close modal
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        renderCollections();
+    </script>
+</body>
+</html>
