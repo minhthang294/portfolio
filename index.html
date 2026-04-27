@@ -11,7 +11,12 @@
 
     <nav>
         <div class="logo">NGUYỄN THỊ NHƯ Ý</div>
-        <ul class="nav-links">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Mở menu điều hướng">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="#home">Trang chủ</a></li>
             <li><a href="#about">Giới thiệu</a></li>
             <li><a href="#portfolio">Bộ sưu tập</a></li>
@@ -128,6 +133,15 @@
         const modalDescription = document.querySelector('.modal-description');
         const modalCategory = document.querySelector('[data-detail="category"]');
         const modalImages = document.querySelector('[data-detail="images"]');
+        const nav = document.querySelector('nav');
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.getElementById('navLinks');
+
+        function setNavOpen(isOpen) {
+            nav.classList.toggle('nav-open', isOpen);
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+            navToggle.setAttribute('aria-label', isOpen ? 'Đóng menu điều hướng' : 'Mở menu điều hướng');
+        }
 
         function getCollectionTitle(collection) {
             return collection.title === 'Feedback' ? 'Phản hồi' : collection.title;
@@ -246,9 +260,31 @@
             document.body.style.overflow = '';
         }
 
+        navToggle.addEventListener('click', () => {
+            setNavOpen(!nav.classList.contains('nav-open'));
+        });
+
+        navLinks.querySelectorAll('a').forEach((anchor) => {
+            anchor.addEventListener('click', () => {
+                setNavOpen(false);
+            });
+        });
+
+        window.matchMedia('(min-width: 769px)').addEventListener('change', (event) => {
+            if (event.matches) {
+                setNavOpen(false);
+            }
+        });
+
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
+            if (event.key === 'Escape') {
+                if (modal.classList.contains('active')) {
+                    closeModal();
+                }
+
+                if (nav.classList.contains('nav-open')) {
+                    setNavOpen(false);
+                }
             }
         });
 
